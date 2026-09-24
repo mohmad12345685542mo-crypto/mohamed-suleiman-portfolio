@@ -1,15 +1,21 @@
-const imageLightbox = document.getElementById("imageLightbox");
-const lightboxImage = document.getElementById("lightboxImage");
-const closeLightbox = document.getElementById("closeLightbox");
+const imageLightbox =
+    document.getElementById("imageLightbox");
+
+const lightboxImage =
+    document.getElementById("lightboxImage");
+
+const closeLightbox =
+    document.getElementById("closeLightbox");
 
 
 // =========================
 // ALL CLICKABLE IMAGES
 // =========================
 
-const imageLinks = document.querySelectorAll(
-    ".hero-image-link, .card-image-link, .project-image-link"
-);
+const imageLinks =
+    document.querySelectorAll(
+        ".hero-image-link, .card-image-link, .project-image-link"
+    );
 
 
 // =========================
@@ -22,15 +28,21 @@ imageLinks.forEach(function(link) {
 
         event.preventDefault();
 
-        const image = link.querySelector("img");
+        const image =
+            link.querySelector("img");
 
         if (!image) {
             return;
         }
 
+
         // Set image
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
+
+        lightboxImage.src =
+            image.src;
+
+        lightboxImage.alt =
+            image.alt;
 
 
         // =========================
@@ -38,10 +50,14 @@ imageLinks.forEach(function(link) {
         // =========================
 
         if (
-            link.classList.contains("hero-image-link")
+            link.classList.contains(
+                "hero-image-link"
+            )
         ) {
 
-            lightboxImage.classList.remove("project-lightbox");
+            lightboxImage.classList.remove(
+                "project-lightbox"
+            );
 
         }
 
@@ -51,16 +67,23 @@ imageLinks.forEach(function(link) {
         // =========================
 
         if (
-            link.classList.contains("project-image-link")
+            link.classList.contains(
+                "project-image-link"
+            )
         ) {
 
-            lightboxImage.classList.add("project-lightbox");
+            lightboxImage.classList.add(
+                "project-lightbox"
+            );
 
         }
 
 
         // Open lightbox
-        imageLightbox.classList.add("active");
+
+        imageLightbox.classList.add(
+            "active"
+        );
 
     });
 
@@ -71,152 +94,286 @@ imageLinks.forEach(function(link) {
 // CLOSE WITH X
 // =========================
 
-closeLightbox.addEventListener("click", function() {
+closeLightbox.addEventListener(
+    "click",
+    function() {
 
-    imageLightbox.classList.remove("active");
-
-});
-
-
-// =========================
-// CLOSE WHEN CLICKING OUTSIDE
-// =========================
-
-imageLightbox.addEventListener("click", function(event) {
-
-    if (event.target === imageLightbox) {
-
-        imageLightbox.classList.remove("active");
+        imageLightbox.classList.remove(
+            "active"
+        );
 
     }
+);
 
-});
+
+// =========================
+// CLOSE OUTSIDE
+// =========================
+
+imageLightbox.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === imageLightbox
+        ) {
+
+            imageLightbox.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+);
 
 
 // =========================
 // CLOSE WITH ESC
 // =========================
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener(
+    "keydown",
+    function(event) {
 
-    if (event.key === "Escape") {
+        if (
+            event.key === "Escape"
+        ) {
 
-        imageLightbox.classList.remove("active");
+            imageLightbox.classList.remove(
+                "active"
+            );
+
+        }
 
     }
+);
 
-});
 
 
-// =========================
+// ==================================================
 // WALKING WOLF
-// =========================
+// ==================================================
 
-const wolfWalker = document.getElementById("wolfWalker");
-const wolfSprite = document.getElementById("wolfSprite");
+const wolfTrack =
+    document.getElementById("wolfTrack");
+
+const wolfWalker =
+    document.getElementById("wolfWalker");
+
+const wolfSprite =
+    document.getElementById("wolfSprite");
+
+
+// =========================
+// WOLF FRAMES
+// =========================
 
 const wolfFrames = [
+
     "IMAGES/wolf-01.png",
+
     "IMAGES/wolf-02.png",
+
     "IMAGES/wolf-03.png",
+
     "IMAGES/wolf-04.png",
+
     "IMAGES/wolf-05.png",
+
     "IMAGES/wolf-06.png",
+
     "IMAGES/wolf-07.png",
+
     "IMAGES/wolf-08.png"
+
 ];
 
+
+// =========================
+// WOLF VARIABLES
+// =========================
+
 let wolfFrame = 0;
-let lastScrollY = window.scrollY;
+
+let lastScrollY =
+    window.scrollY;
+
 let wolfAnimationTimer = 0;
 
-
-// =========================
-// PRELOAD WOLF IMAGES
-// =========================
-
-wolfFrames.forEach(function(src) {
-
-    const image = new Image();
-
-    image.src = src;
-
-});
+let wolfCurrentX = 0;
 
 
 // =========================
-// UPDATE WOLF POSITION AND ANIMATION
+// PRELOAD WOLF
+// =========================
+
+wolfFrames.forEach(
+    function(src) {
+
+        const image =
+            new Image();
+
+        image.src =
+            src;
+
+    }
+);
+
+
+// =========================
+// GET WOLF POSITION
 // =========================
 
 function updateWolf() {
 
-    const scrollTop = window.scrollY;
+    if (
+        !wolfTrack ||
+        !wolfWalker
+    ) {
 
-    const pageHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-
-    const maxWolfX =
-        window.innerWidth - wolfWalker.offsetWidth;
-
-    let scrollProgress = 0;
-
-    if (pageHeight > 0) {
-
-        scrollProgress = scrollTop / pageHeight;
+        return;
 
     }
 
 
-    // Move wolf according to page scroll
+    const scrollTop =
+        window.scrollY;
 
-    const wolfX =
-        scrollProgress * maxWolfX;
+
+    const documentHeight =
+        document.documentElement.scrollHeight;
+
+
+    const windowHeight =
+        window.innerHeight;
+
+
+    const maxScroll =
+        documentHeight -
+        windowHeight;
+
+
+    let scrollProgress = 0;
+
+
+    if (maxScroll > 0) {
+
+        scrollProgress =
+            scrollTop / maxScroll;
+
+    }
+
+
+    // Keep value safe
+
+    scrollProgress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                scrollProgress
+            )
+        );
+
+
+    // =========================
+    // TRACK WIDTH
+    // =========================
+
+    const trackWidth =
+        wolfTrack.clientWidth;
+
+
+    const wolfWidth =
+        wolfWalker.offsetWidth;
+
+
+    const maxWolfX =
+        Math.max(
+            0,
+            trackWidth - wolfWidth
+        );
+
+
+    // =========================
+    // MOVE WOLF
+    // =========================
+
+    wolfCurrentX =
+        scrollProgress *
+        maxWolfX;
+
 
     wolfWalker.style.transform =
-        `translateX(${wolfX}px)`;
+        `translateX(${wolfCurrentX}px)`;
 
 
-    // Change walking frame while scrolling
+    // =========================
+    // WALKING ANIMATION
+    // =========================
 
     const scrollDifference =
-        Math.abs(scrollTop - lastScrollY);
+        Math.abs(
+            scrollTop -
+            lastScrollY
+        );
 
-    if (scrollDifference > 2) {
 
-        const now = performance.now();
+    if (
+        scrollDifference > 1
+    ) {
 
-        if (now - wolfAnimationTimer > 70) {
+        const now =
+            performance.now();
+
+
+        if (
+            now -
+            wolfAnimationTimer >
+            75
+        ) {
 
             wolfFrame =
-                (wolfFrame + 1) % wolfFrames.length;
+                (
+                    wolfFrame + 1
+                ) %
+                wolfFrames.length;
+
 
             wolfSprite.src =
                 wolfFrames[wolfFrame];
 
-            wolfAnimationTimer = now;
+
+            wolfAnimationTimer =
+                now;
 
         }
 
     }
 
-    lastScrollY = scrollTop;
+
+    lastScrollY =
+        scrollTop;
 
 }
 
 
 // =========================
-// SCROLL
+// SCROLL EVENT
 // =========================
 
 window.addEventListener(
     "scroll",
     updateWolf,
-    { passive: true }
+    {
+        passive: true
+    }
 );
 
 
 // =========================
-// RESIZE
+// RESIZE EVENT
 // =========================
 
 window.addEventListener(
@@ -226,7 +383,7 @@ window.addEventListener(
 
 
 // =========================
-// INITIAL POSITION
+// INITIAL
 // =========================
 
 updateWolf();
