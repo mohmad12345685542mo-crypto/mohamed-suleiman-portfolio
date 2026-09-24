@@ -304,7 +304,7 @@ nav ul li a:hover::after {
     justify-content: center;
 
     padding:
-        120px 8% 80px;
+        120px 8% 100px;
 
     position: relative;
 
@@ -587,6 +587,81 @@ nav ul li a:hover::after {
     box-shadow:
         0 0 25px rgba(0, 229, 255, 0.7),
         0 0 80px rgba(0, 229, 255, 0.25);
+}
+
+
+/* =========================
+   WOLF SCENE
+========================= */
+
+#wolfScene {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 150px;
+
+    pointer-events: none;
+
+    z-index: 4;
+
+    overflow: hidden;
+}
+
+
+#wolfWalker {
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 5px;
+
+    width: 150px;
+
+    height: 120px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: center;
+
+    pointer-events: none;
+
+    will-change: transform;
+
+    transform:
+        translate3d(0, 0, 0);
+}
+
+
+#wolfSprite {
+
+    width: 150px;
+
+    height: auto;
+
+    display: block;
+
+    user-select: none;
+
+    pointer-events: none;
+
+    image-rendering: auto;
+
+    will-change: contents;
+
+    filter:
+        drop-shadow(
+            0 5px 8px rgba(0, 0, 0, 0.55)
+        );
 }
 
 
@@ -1019,82 +1094,6 @@ footer {
 
 
 /* =========================
-   WOLF TRACK
-========================= */
-
-#wolfTrack {
-
-    position: relative;
-
-    width: 100%;
-
-    height: 150px;
-
-    margin-top: -40px;
-
-    overflow: hidden;
-
-    pointer-events: none;
-
-    z-index: 10;
-}
-
-
-/* =========================
-   WOLF
-========================= */
-
-#wolfWalker {
-
-    position: absolute;
-
-    left: 0;
-
-    bottom: 15px;
-
-    width: 150px;
-
-    height: 120px;
-
-    display: flex;
-
-    align-items: flex-end;
-
-    justify-content: center;
-
-    pointer-events: none;
-
-    will-change: transform;
-
-    transform:
-        translateX(0);
-}
-
-
-#wolfSprite {
-
-    width: 150px;
-
-    height: auto;
-
-    display: block;
-
-    user-select: none;
-
-    pointer-events: none;
-
-    image-rendering: auto;
-
-    will-change: contents;
-
-    filter:
-        drop-shadow(
-            0 5px 8px rgba(0, 0, 0, 0.55)
-        );
-}
-
-
-/* =========================
    MOBILE
 ========================= */
 
@@ -1149,7 +1148,9 @@ footer {
     .hero {
 
         padding:
-            120px 6% 70px;
+            120px 6% 150px;
+
+        min-height: 100vh;
     }
 
 
@@ -1212,6 +1213,32 @@ footer {
 
         transform:
             translateX(0);
+    }
+
+
+    /* WOLF */
+
+    #wolfScene {
+
+        height: 110px;
+
+        bottom: 0;
+    }
+
+
+    #wolfWalker {
+
+        width: 100px;
+
+        height: 85px;
+
+        bottom: 5px;
+    }
+
+
+    #wolfSprite {
+
+        width: 100px;
     }
 
 
@@ -1279,33 +1306,6 @@ footer {
         right: 20px;
 
         font-size: 38px;
-    }
-
-
-
-    /* WOLF */
-
-    #wolfTrack {
-
-        height: 110px;
-
-        margin-top: -20px;
-    }
-
-
-    #wolfWalker {
-
-        width: 100px;
-
-        height: 85px;
-
-        bottom: 10px;
-    }
-
-
-    #wolfSprite {
-
-        width: 100px;
     }
 
 }
