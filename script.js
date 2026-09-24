@@ -1,3 +1,7 @@
+/* =========================
+   IMAGE LIGHTBOX
+========================= */
+
 const imageLightbox =
     document.getElementById("imageLightbox");
 
@@ -8,91 +12,70 @@ const closeLightbox =
     document.getElementById("closeLightbox");
 
 
-// =========================
-// ALL CLICKABLE IMAGES
-// =========================
-
 const imageLinks =
     document.querySelectorAll(
-        ".hero-image-link, .card-image-link, .project-image-link"
+        ".hero-image-link, .card-image-link"
     );
 
 
-// =========================
-// OPEN LIGHTBOX
-// =========================
-
 imageLinks.forEach(function(link) {
 
-    link.addEventListener("click", function(event) {
+    link.addEventListener(
+        "click",
+        function(event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const image =
-            link.querySelector("img");
+            const image =
+                link.querySelector("img");
 
-        if (!image) {
-            return;
-        }
-
-
-        // Set image
-
-        lightboxImage.src =
-            image.src;
-
-        lightboxImage.alt =
-            image.alt;
+            if (!image) {
+                return;
+            }
 
 
-        // =========================
-        // HERO IMAGE
-        // =========================
+            lightboxImage.src =
+                image.src;
 
-        if (
-            link.classList.contains(
-                "hero-image-link"
-            )
-        ) {
+            lightboxImage.alt =
+                image.alt;
 
-            lightboxImage.classList.remove(
-                "project-lightbox"
+
+            if (
+                link.classList.contains(
+                    "hero-image-link"
+                )
+            ) {
+
+                lightboxImage.classList.remove(
+                    "project-lightbox"
+                );
+
+            }
+
+
+            if (
+                link.classList.contains(
+                    "card-image-link"
+                )
+            ) {
+
+                lightboxImage.classList.add(
+                    "project-lightbox"
+                );
+
+            }
+
+
+            imageLightbox.classList.add(
+                "active"
             );
 
         }
-
-
-        // =========================
-        // PROJECT IMAGE
-        // =========================
-
-        if (
-            link.classList.contains(
-                "project-image-link"
-            )
-        ) {
-
-            lightboxImage.classList.add(
-                "project-lightbox"
-            );
-
-        }
-
-
-        // Open lightbox
-
-        imageLightbox.classList.add(
-            "active"
-        );
-
-    });
+    );
 
 });
 
-
-// =========================
-// CLOSE WITH X
-// =========================
 
 closeLightbox.addEventListener(
     "click",
@@ -106,16 +89,13 @@ closeLightbox.addEventListener(
 );
 
 
-// =========================
-// CLOSE OUTSIDE
-// =========================
-
 imageLightbox.addEventListener(
     "click",
     function(event) {
 
         if (
-            event.target === imageLightbox
+            event.target ===
+            imageLightbox
         ) {
 
             imageLightbox.classList.remove(
@@ -127,18 +107,12 @@ imageLightbox.addEventListener(
     }
 );
 
-
-// =========================
-// CLOSE WITH ESC
-// =========================
 
 document.addEventListener(
     "keydown",
     function(event) {
 
-        if (
-            event.key === "Escape"
-        ) {
+        if (event.key === "Escape") {
 
             imageLightbox.classList.remove(
                 "active"
@@ -151,12 +125,12 @@ document.addEventListener(
 
 
 
-// ==================================================
-// WALKING WOLF
-// ==================================================
+/* =========================
+   WOLF WALKING SYSTEM
+========================= */
 
-const wolfTrack =
-    document.getElementById("wolfTrack");
+const wolfScene =
+    document.getElementById("wolfScene");
 
 const wolfWalker =
     document.getElementById("wolfWalker");
@@ -165,71 +139,56 @@ const wolfSprite =
     document.getElementById("wolfSprite");
 
 
-// =========================
-// WOLF FRAMES
-// =========================
-
 const wolfFrames = [
 
     "IMAGES/wolf-01.png",
-
     "IMAGES/wolf-02.png",
-
     "IMAGES/wolf-03.png",
-
     "IMAGES/wolf-04.png",
-
     "IMAGES/wolf-05.png",
-
     "IMAGES/wolf-06.png",
-
     "IMAGES/wolf-07.png",
-
     "IMAGES/wolf-08.png"
 
 ];
 
-
-// =========================
-// WOLF VARIABLES
-// =========================
 
 let wolfFrame = 0;
 
 let lastScrollY =
     window.scrollY;
 
-let wolfAnimationTimer = 0;
+let lastFrameTime = 0;
 
-let wolfCurrentX = 0;
-
-
-// =========================
-// PRELOAD WOLF
-// =========================
-
-wolfFrames.forEach(
-    function(src) {
-
-        const image =
-            new Image();
-
-        image.src =
-            src;
-
-    }
-);
+let currentWolfX = 0;
 
 
-// =========================
-// GET WOLF POSITION
-// =========================
+
+/* =========================
+   PRELOAD WOLF FRAMES
+========================= */
+
+wolfFrames.forEach(function(src) {
+
+    const image =
+        new Image();
+
+    image.src = src;
+
+});
+
+
+
+/* =========================
+   UPDATE WOLF
+========================= */
 
 function updateWolf() {
 
     if (
-        !wolfTrack ||
-        !wolfWalker
+        !wolfScene ||
+        !wolfWalker ||
+        !wolfSprite
     ) {
 
         return;
@@ -237,131 +196,136 @@ function updateWolf() {
     }
 
 
-    const scrollTop =
+    const scrollY =
         window.scrollY;
 
 
-    const documentHeight =
-        document.documentElement.scrollHeight;
+    const heroTop =
+        wolfScene
+            .closest(".hero")
+            .offsetTop;
 
 
-    const windowHeight =
-        window.innerHeight;
+    const heroElement =
+        wolfScene.closest(".hero");
 
 
-    const maxScroll =
-        documentHeight -
-        windowHeight;
+    const heroHeight =
+        heroElement.offsetHeight;
 
 
-    let scrollProgress = 0;
-
-
-    if (maxScroll > 0) {
-
-        scrollProgress =
-            scrollTop / maxScroll;
-
-    }
-
-
-    // Keep value safe
-
-    scrollProgress =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                scrollProgress
-            )
-        );
-
-
-    // =========================
-    // TRACK WIDTH
-    // =========================
-
-    const trackWidth =
-        wolfTrack.clientWidth;
-
-
-    const wolfWidth =
-        wolfWalker.offsetWidth;
+    const heroBottom =
+        heroTop + heroHeight;
 
 
     const maxWolfX =
         Math.max(
             0,
-            trackWidth - wolfWidth
+            wolfScene.clientWidth -
+            wolfWalker.offsetWidth
         );
 
 
-    // =========================
-    // MOVE WOLF
-    // =========================
+    /*
+       مقدار التقدم داخل الـHero
+    */
 
-    wolfCurrentX =
-        scrollProgress *
+    let progress =
+        (scrollY - heroTop) /
+        heroHeight;
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                progress
+            )
+        );
+
+
+    /*
+       الذئب يتحرك من الشمال
+       لليمين أثناء دخولنا
+       وخروجنا من الـHero
+    */
+
+    const targetX =
+        progress *
         maxWolfX;
 
 
+    currentWolfX =
+        targetX;
+
+
     wolfWalker.style.transform =
-        `translateX(${wolfCurrentX}px)`;
+        `translate3d(${currentWolfX}px, 0, 0)`;
 
 
-    // =========================
-    // WALKING ANIMATION
-    // =========================
+
+    /* =========================
+       WALKING FRAMES
+    ========================= */
 
     const scrollDifference =
+        scrollY - lastScrollY;
+
+
+    const movement =
         Math.abs(
-            scrollTop -
-            lastScrollY
+            scrollDifference
         );
 
 
+    const now =
+        performance.now();
+
+
     if (
-        scrollDifference > 1
+        movement > 0.5 &&
+        now - lastFrameTime > 70
     ) {
 
-        const now =
-            performance.now();
-
-
         if (
-            now -
-            wolfAnimationTimer >
-            75
+            scrollDifference > 0
         ) {
 
             wolfFrame =
-                (
-                    wolfFrame + 1
-                ) %
+                (wolfFrame + 1) %
                 wolfFrames.length;
 
+        } else {
 
-            wolfSprite.src =
-                wolfFrames[wolfFrame];
-
-
-            wolfAnimationTimer =
-                now;
+            wolfFrame =
+                (wolfFrame - 1 +
+                    wolfFrames.length) %
+                wolfFrames.length;
 
         }
+
+
+        wolfSprite.src =
+            wolfFrames[wolfFrame];
+
+
+        lastFrameTime =
+            now;
 
     }
 
 
     lastScrollY =
-        scrollTop;
+        scrollY;
 
 }
 
 
-// =========================
-// SCROLL EVENT
-// =========================
+
+/* =========================
+   SCROLL
+========================= */
 
 window.addEventListener(
     "scroll",
@@ -372,9 +336,10 @@ window.addEventListener(
 );
 
 
-// =========================
-// RESIZE EVENT
-// =========================
+
+/* =========================
+   RESIZE
+========================= */
 
 window.addEventListener(
     "resize",
@@ -382,8 +347,9 @@ window.addEventListener(
 );
 
 
-// =========================
-// INITIAL
-// =========================
+
+/* =========================
+   INITIAL
+========================= */
 
 updateWolf();
