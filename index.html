@@ -30,9 +30,7 @@
 <body>
 
 
-    <!-- =========================
-         NAVIGATION
-    ========================= -->
+    <!-- NAVIGATION -->
 
     <header>
 
@@ -94,16 +92,12 @@
 
 
 
-    <!-- =========================
-         MAIN
-    ========================= -->
+    <!-- MAIN -->
 
     <main>
 
 
-        <!-- =========================
-             HERO
-        ========================= -->
+        <!-- HERO -->
 
         <section
             id="home"
@@ -197,22 +191,31 @@
             </div>
 
 
-            <!-- =========================
-                 WOLF SCENE
-            ========================= -->
+
+            <!-- WOLF SYSTEM -->
 
             <div
                 id="wolfScene"
                 aria-hidden="true"
             >
 
+                <div id="wolfGround"></div>
+
+
                 <div id="wolfWalker">
 
-                    <img
-                        id="wolfSprite"
-                        src="IMAGES/wolf-01.png"
-                        alt=""
-                    >
+                    <span id="wolfShadow"></span>
+
+
+                    <div id="wolfBody">
+
+                        <img
+                            id="wolfSprite"
+                            src="IMAGES/wolf-01.png"
+                            alt=""
+                        >
+
+                    </div>
 
                 </div>
 
@@ -223,9 +226,7 @@
 
 
 
-        <!-- =========================
-             ABOUT
-        ========================= -->
+        <!-- ABOUT -->
 
         <section
             id="about"
@@ -272,9 +273,7 @@
 
 
 
-        <!-- =========================
-             PROJECTS
-        ========================= -->
+        <!-- PROJECTS -->
 
         <section
             id="projects"
@@ -296,8 +295,6 @@
 
             <div class="cards">
 
-
-                <!-- CYBERSECURITY -->
 
                 <article class="card">
 
@@ -331,8 +328,6 @@
 
 
 
-                <!-- WEB DEVELOPMENT -->
-
                 <article class="card">
 
                     <h3>
@@ -365,8 +360,6 @@
                 </article>
 
 
-
-                <!-- DATABASE -->
 
                 <article class="card">
 
@@ -404,9 +397,7 @@
 
 
 
-        <!-- =========================
-             SKILLS
-        ========================= -->
+        <!-- SKILLS -->
 
         <section
             id="skills"
@@ -458,9 +449,7 @@
 
 
 
-        <!-- =========================
-             CONTACT
-        ========================= -->
+        <!-- CONTACT -->
 
         <section
             id="contact"
@@ -504,9 +493,7 @@
 
 
 
-    <!-- =========================
-         FOOTER
-    ========================= -->
+    <!-- FOOTER -->
 
     <footer>
 
@@ -517,9 +504,7 @@
 
 
 
-    <!-- =========================
-         IMAGE LIGHTBOX
-    ========================= -->
+    <!-- IMAGE LIGHTBOX -->
 
     <div
         id="imageLightbox"
@@ -544,7 +529,543 @@
 
 
 
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            /* =========================
+               WOLF WALKING SYSTEM
+            ========================= */
+
+            const wolfScene =
+                document.getElementById("wolfScene");
+
+            const wolfWalker =
+                document.getElementById("wolfWalker");
+
+            const wolfBody =
+                document.getElementById("wolfBody");
+
+            const wolfSprite =
+                document.getElementById("wolfSprite");
+
+            const wolfShadow =
+                document.getElementById("wolfShadow");
+
+
+            const wolfFrames = [
+
+                "IMAGES/wolf-01.png",
+                "IMAGES/wolf-02.png",
+                "IMAGES/wolf-03.png",
+                "IMAGES/wolf-04.png",
+                "IMAGES/wolf-05.png",
+                "IMAGES/wolf-06.png",
+                "IMAGES/wolf-07.png",
+                "IMAGES/wolf-08.png"
+
+            ];
+
+
+            /* PRELOAD ALL FRAMES */
+
+            const loadedWolfFrames = [];
+
+            wolfFrames.forEach(function (src) {
+
+                const image = new Image();
+
+                image.src = src;
+
+                loadedWolfFrames.push(image);
+
+            });
+
+
+
+            let wolfFrame = 0;
+
+            let wolfDirection = 1;
+
+            let currentX = 0;
+
+            let targetX = 0;
+
+            let lastScrollY =
+                window.scrollY;
+
+            let lastFrameTime = 0;
+
+            let wolfVisible = true;
+
+
+
+            function clamp(
+                value,
+                min,
+                max
+            ) {
+
+                return Math.max(
+                    min,
+                    Math.min(max, value)
+                );
+
+            }
+
+
+
+            function updateWolfPosition() {
+
+                if (!wolfScene) {
+                    return;
+                }
+
+
+                const hero =
+                    document.getElementById("home");
+
+                if (!hero) {
+                    return;
+                }
+
+
+                const heroRect =
+                    hero.getBoundingClientRect();
+
+
+                const heroTop =
+                    heroRect.top + window.scrollY;
+
+
+                const heroHeight =
+                    heroRect.height;
+
+
+                const sceneWidth =
+                    wolfScene.clientWidth;
+
+
+                const walkerWidth =
+                    wolfWalker.offsetWidth;
+
+
+                const maxX =
+                    Math.max(
+                        0,
+                        sceneWidth - walkerWidth
+                    );
+
+
+                const scrollStart =
+                    heroTop;
+
+
+                const scrollEnd =
+                    heroTop +
+                    heroHeight -
+                    window.innerHeight;
+
+
+                let progress;
+
+
+                if (scrollEnd <= scrollStart) {
+
+                    progress = 0;
+
+                } else {
+
+                    progress =
+                        (
+                            window.scrollY -
+                            scrollStart
+                        ) /
+                        (
+                            scrollEnd -
+                            scrollStart
+                        );
+
+                }
+
+
+                progress =
+                    clamp(
+                        progress,
+                        0,
+                        1
+                    );
+
+
+                targetX =
+                    progress * maxX;
+
+            }
+
+
+
+            function changeWolfDirection(
+                direction
+            ) {
+
+                if (
+                    direction !== 1 &&
+                    direction !== -1
+                ) {
+                    return;
+                }
+
+
+                if (
+                    wolfDirection === direction
+                ) {
+                    return;
+                }
+
+
+                wolfDirection =
+                    direction;
+
+
+                if (wolfDirection === 1) {
+
+                    wolfSprite.style.transform =
+                        "scaleX(1)";
+
+                } else {
+
+                    wolfSprite.style.transform =
+                        "scaleX(-1)";
+
+                }
+
+            }
+
+
+
+            function handleWolfScroll() {
+
+                const scrollY =
+                    window.scrollY;
+
+
+                const difference =
+                    scrollY - lastScrollY;
+
+
+                if (
+                    Math.abs(difference) > 0.5
+                ) {
+
+                    if (difference > 0) {
+
+                        changeWolfDirection(1);
+
+                    } else {
+
+                        changeWolfDirection(-1);
+
+                    }
+
+                }
+
+
+                lastScrollY =
+                    scrollY;
+
+
+                updateWolfPosition();
+
+            }
+
+
+
+            function animateWolf(
+                timestamp
+            ) {
+
+                if (!lastFrameTime) {
+
+                    lastFrameTime =
+                        timestamp;
+
+                }
+
+
+                const frameDelay = 105;
+
+
+                if (
+                    wolfVisible &&
+                    timestamp - lastFrameTime >= frameDelay
+                ) {
+
+                    if (
+                        wolfDirection === 1
+                    ) {
+
+                        wolfFrame++;
+
+                        if (
+                            wolfFrame >=
+                            wolfFrames.length
+                        ) {
+
+                            wolfFrame = 0;
+
+                        }
+
+                    } else {
+
+                        wolfFrame--;
+
+                        if (
+                            wolfFrame < 0
+                        ) {
+
+                            wolfFrame =
+                                wolfFrames.length - 1;
+
+                        }
+
+                    }
+
+
+                    wolfSprite.src =
+                        wolfFrames[wolfFrame];
+
+
+                    lastFrameTime =
+                        timestamp;
+
+                }
+
+
+                currentX +=
+                    (
+                        targetX -
+                        currentX
+                    ) * 0.13;
+
+
+                wolfWalker.style.transform =
+                    "translate3d(" +
+                    currentX +
+                    "px, 0, 0)";
+
+
+                requestAnimationFrame(
+                    animateWolf
+                );
+
+            }
+
+
+
+            /* KEEP WOLF ANIMATION ACTIVE ONLY WHEN HERO IS VISIBLE */
+
+            const wolfObserver =
+                new IntersectionObserver(
+                    function (entries) {
+
+                        entries.forEach(
+                            function (entry) {
+
+                                wolfVisible =
+                                    entry.isIntersecting;
+
+                            }
+                        );
+
+                    },
+                    {
+                        threshold: 0
+                    }
+                );
+
+
+            wolfObserver.observe(
+                document.getElementById("home")
+            );
+
+
+
+            window.addEventListener(
+                "scroll",
+                handleWolfScroll,
+                {
+                    passive: true
+                }
+            );
+
+
+            window.addEventListener(
+                "resize",
+                function () {
+
+                    updateWolfPosition();
+
+                }
+            );
+
+
+
+            updateWolfPosition();
+
+            requestAnimationFrame(
+                animateWolf
+            );
+
+
+
+            /* =========================
+               LIGHTBOX
+            ========================= */
+
+            const lightbox =
+                document.getElementById(
+                    "imageLightbox"
+                );
+
+            const lightboxImage =
+                document.getElementById(
+                    "lightboxImage"
+                );
+
+            const closeLightbox =
+                document.getElementById(
+                    "closeLightbox"
+                );
+
+
+            const imageLinks =
+                document.querySelectorAll(
+                    ".hero-image-link, .card-image-link"
+                );
+
+
+            imageLinks.forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function (event) {
+
+                            event.preventDefault();
+
+
+                            const image =
+                                link.querySelector(
+                                    "img"
+                                );
+
+
+                            if (!image) {
+                                return;
+                            }
+
+
+                            lightboxImage.src =
+                                link.href;
+
+
+                            lightboxImage.alt =
+                                image.alt;
+
+
+                            if (
+                                link.classList.contains(
+                                    "card-image-link"
+                                )
+                            ) {
+
+                                lightboxImage.classList.add(
+                                    "project-lightbox"
+                                );
+
+                            } else {
+
+                                lightboxImage.classList.remove(
+                                    "project-lightbox"
+                                );
+
+                            }
+
+
+                            lightbox.classList.add(
+                                "active"
+                            );
+
+
+                            document.body.style.overflow =
+                                "hidden";
+
+                        }
+                    );
+
+                }
+            );
+
+
+
+            function closeImageLightbox() {
+
+                lightbox.classList.remove(
+                    "active"
+                );
+
+
+                document.body.style.overflow =
+                    "";
+
+            }
+
+
+
+            closeLightbox.addEventListener(
+                "click",
+                closeImageLightbox
+            );
+
+
+            lightbox.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === lightbox
+                    ) {
+
+                        closeImageLightbox();
+
+                    }
+
+                }
+            );
+
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Escape"
+                    ) {
+
+                        closeImageLightbox();
+
+                    }
+
+                }
+            );
+
+
+        });
+
+    </script>
 
 </body>
 
