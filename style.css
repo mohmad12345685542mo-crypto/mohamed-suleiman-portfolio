@@ -13,7 +13,6 @@ html {
 }
 
 body {
-
     font-family: Arial, sans-serif;
 
     background:
@@ -51,7 +50,6 @@ body {
 ========================= */
 
 body::before {
-
     content: "";
 
     position: fixed;
@@ -85,7 +83,6 @@ body::before {
 
 
 body::after {
-
     content: "";
 
     position: fixed;
@@ -143,7 +140,6 @@ body::after {
 ========================= */
 
 header {
-
     position: fixed;
 
     top: 0;
@@ -167,7 +163,6 @@ header {
 
 
 nav {
-
     display: flex;
 
     align-items: center;
@@ -179,7 +174,6 @@ nav {
 
 
 .logo {
-
     width: 55px;
     height: 55px;
 
@@ -200,7 +194,6 @@ nav {
 
 
 .logo:hover {
-
     transform:
         scale(1.08);
 
@@ -211,7 +204,6 @@ nav {
 
 
 .nav-slogan {
-
     flex: 1;
 
     text-align: center;
@@ -227,7 +219,6 @@ nav {
 
 
 nav ul {
-
     list-style: none;
 
     display: flex;
@@ -241,7 +232,6 @@ nav ul {
 
 
 nav ul li a {
-
     color: #ffffff;
 
     text-decoration: none;
@@ -256,7 +246,6 @@ nav ul li a {
 
 
 nav ul li a::after {
-
     content: "";
 
     position: absolute;
@@ -275,7 +264,6 @@ nav ul li a::after {
 
 
 nav ul li a:hover {
-
     color: #00e5ff;
 
     text-shadow:
@@ -284,7 +272,6 @@ nav ul li a:hover {
 
 
 nav ul li a:hover::after {
-
     width: 100%;
 }
 
@@ -294,7 +281,6 @@ nav ul li a:hover::after {
 ========================= */
 
 .hero {
-
     min-height: 100vh;
 
     display: flex;
@@ -304,28 +290,28 @@ nav ul li a:hover::after {
     justify-content: center;
 
     padding:
-        120px 8% 125px;
+        120px 8% 190px;
 
     position: relative;
 
     overflow: hidden;
+
+    isolation: isolate;
 }
 
 
 .hero-content {
-
     width: 100%;
 
     max-width: 1400px;
 
     position: relative;
 
-    z-index: 2;
+    z-index: 10;
 }
 
 
 .hero-main {
-
     display: flex;
 
     align-items: center;
@@ -337,7 +323,6 @@ nav ul li a:hover::after {
 
 
 .hero-text {
-
     flex: 1;
 
     max-width: 700px;
@@ -345,7 +330,6 @@ nav ul li a:hover::after {
 
 
 .small-title {
-
     color: #00e5ff;
 
     font-size: 14px;
@@ -359,7 +343,6 @@ nav ul li a:hover::after {
 
 
 .hero h1 {
-
     font-size:
         clamp(55px, 8vw, 100px);
 
@@ -374,7 +357,6 @@ nav ul li a:hover::after {
 
 
 .hero h1 span {
-
     color: #00e5ff;
 
     text-shadow:
@@ -384,7 +366,6 @@ nav ul li a:hover::after {
 
 
 .hero h2 {
-
     font-size: 24px;
 
     color: #b8f7ff;
@@ -396,7 +377,6 @@ nav ul li a:hover::after {
 
 
 .hero-description {
-
     color: #a7b7bd;
 
     max-width: 650px;
@@ -412,7 +392,6 @@ nav ul li a:hover::after {
 ========================= */
 
 .hero-buttons {
-
     display: flex;
 
     gap: 15px;
@@ -422,7 +401,6 @@ nav ul li a:hover::after {
 
 
 .btn {
-
     display: inline-block;
 
     padding:
@@ -446,7 +424,6 @@ nav ul li a:hover::after {
 
 
 .btn:hover {
-
     background: #00e5ff;
 
     color: #000000;
@@ -461,7 +438,6 @@ nav ul li a:hover::after {
 
 
 .btn.secondary {
-
     border-color:
         rgba(255, 255, 255, 0.35);
 
@@ -473,7 +449,6 @@ nav ul li a:hover::after {
 
 
 .btn.secondary:hover {
-
     background: #ffffff;
 
     color: #000000;
@@ -487,7 +462,6 @@ nav ul li a:hover::after {
 ========================= */
 
 .hero-logo {
-
     width: 420px;
     height: 420px;
 
@@ -504,7 +478,6 @@ nav ul li a:hover::after {
 
 
 .logo-glow {
-
     position: absolute;
 
     width: 100%;
@@ -546,7 +519,6 @@ nav ul li a:hover::after {
 
 
 .hero-image-link {
-
     position: relative;
 
     z-index: 2;
@@ -559,7 +531,6 @@ nav ul li a:hover::after {
 
 
 .hero-logo-image {
-
     width: 420px;
     height: 420px;
 
@@ -580,7 +551,6 @@ nav ul li a:hover::after {
 
 
 .hero-logo-image:hover {
-
     transform:
         scale(1.03);
 
@@ -595,7 +565,6 @@ nav ul li a:hover::after {
 ========================= */
 
 #wolfScene {
-
     position: absolute;
 
     left: 0;
@@ -604,24 +573,23 @@ nav ul li a:hover::after {
 
     width: 100%;
 
-    height: 190px;
+    height: 215px;
 
     pointer-events: none;
 
-    z-index: 5;
+    z-index: 6;
 
-    overflow: hidden;
+    overflow: visible;
 }
 
 
 #wolfGround {
-
     position: absolute;
 
     left: 0;
     right: 0;
 
-    bottom: 36px;
+    bottom: 38px;
 
     height: 1px;
 
@@ -641,16 +609,15 @@ nav ul li a:hover::after {
 
 
 #wolfWalker {
-
     position: absolute;
 
     left: 0;
 
-    bottom: 37px;
+    bottom: 39px;
 
-    width: 175px;
+    width: 210px;
 
-    height: 135px;
+    height: 165px;
 
     display: flex;
 
@@ -664,11 +631,12 @@ nav ul li a:hover::after {
 
     transform:
         translate3d(0, 0, 0);
+
+    z-index: 2;
 }
 
 
 #wolfBody {
-
     position: relative;
 
     width: 100%;
@@ -692,10 +660,9 @@ nav ul li a:hover::after {
 
 
 #wolfSprite {
-
     position: relative;
 
-    width: 175px;
+    width: 210px;
 
     height: auto;
 
@@ -712,33 +679,32 @@ nav ul li a:hover::after {
 
     filter:
         drop-shadow(
-            0 5px 7px rgba(0, 0, 0, 0.7)
+            0 6px 9px rgba(0, 0, 0, 0.75)
         )
         drop-shadow(
-            0 0 7px rgba(0, 229, 255, 0.08)
+            0 0 8px rgba(0, 229, 255, 0.10)
         );
 
-    will-change: transform;
+    will-change: contents, transform;
 }
 
 
 #wolfShadow {
-
     position: absolute;
 
     left: 50%;
 
     bottom: 0;
 
-    width: 105px;
+    width: 125px;
 
-    height: 12px;
+    height: 13px;
 
     transform:
         translateX(-50%);
 
     background:
-        rgba(0, 0, 0, 0.65);
+        rgba(0, 0, 0, 0.68);
 
     border-radius: 50%;
 
@@ -780,14 +746,14 @@ nav ul li a:hover::after {
     0%,
     100% {
 
-        width: 105px;
+        width: 125px;
 
-        opacity: 0.65;
+        opacity: 0.68;
     }
 
     50% {
 
-        width: 92px;
+        width: 108px;
 
         opacity: 0.48;
     }
@@ -1229,7 +1195,6 @@ footer {
 
 @media (max-width: 800px) {
 
-
     header {
 
         padding:
@@ -1270,11 +1235,10 @@ footer {
     }
 
 
-
     .hero {
 
         padding:
-            120px 6% 150px;
+            120px 6% 155px;
 
         min-height: 100vh;
     }
@@ -1342,28 +1306,31 @@ footer {
     }
 
 
-
-    /* MOBILE WOLF */
+    /* =========================
+       MOBILE WOLF
+    ========================= */
 
     #wolfScene {
 
-        height: 125px;
+        height: 145px;
+
+        z-index: 6;
     }
 
 
     #wolfGround {
 
-        bottom: 26px;
+        bottom: 27px;
     }
 
 
     #wolfWalker {
 
-        width: 115px;
+        width: 145px;
 
-        height: 92px;
+        height: 110px;
 
-        bottom: 27px;
+        bottom: 28px;
     }
 
 
@@ -1377,17 +1344,16 @@ footer {
 
     #wolfSprite {
 
-        width: 115px;
+        width: 145px;
     }
 
 
     #wolfShadow {
 
-        width: 68px;
+        width: 82px;
 
-        height: 8px;
+        height: 9px;
     }
-
 
 
     .section {
@@ -1403,7 +1369,6 @@ footer {
     }
 
 
-
     .cards {
 
         grid-template-columns:
@@ -1415,7 +1380,6 @@ footer {
 
         height: 200px;
     }
-
 
 
     .image-lightbox {
